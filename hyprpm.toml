@@ -1,0 +1,10 @@
+[repository]
+name = "hyprdrag"
+authors = ["yz778"]
+commit_pins = []
+
+[hyprdrag]
+description = "Hyprland plugin to enable windowrules and IPC events for window move and resize events"
+authors = ["yz778"]
+output = "src/hyprdrag.so"
+build = ["make -C src all"]
