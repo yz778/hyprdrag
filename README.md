@@ -7,7 +7,7 @@ https://github.com/user-attachments/assets/ab72bcab-2743-4419-9402-9c62e67f6aac
 ## Install with `hyprpm`
 
 ```bash
-hyprpm add https://github.com/yz778/hyprdrag
+hyprpm update https://github.com/yz778/hyprdrag
 hyprpm enable hyprdrag
 ```
 ## Manual install
