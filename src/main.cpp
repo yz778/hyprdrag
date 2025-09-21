@@ -124,13 +124,13 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
     const std::string HASH = __hyprland_api_get_hash();
 
     if (HASH != GIT_COMMIT_HASH) {
-        throw std::runtime_error("[hyprevent] Version mismatch");
+        throw std::runtime_error("[hyprdrag] Version mismatch");
     }
 
     // Register mouse move callback instead of drag callbacks
     mouseMoveCallback = HyprlandAPI::registerCallbackDynamic(PHANDLE, "mouseMove", onMouseMove);
 
-    return {"hyprevent", "Window interaction event plugin", "Hyprland Community", "0.1"};
+    return {"hyprdrag", "Window move/resize interaction plugin", "yz778", "0.1.2"};
 }
 
 APICALL EXPORT void PLUGIN_EXIT() {
