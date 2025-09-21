@@ -35,14 +35,14 @@ static bool wasMoving = false;
 static PHLWINDOW lastDraggedWindow = nullptr;
 
 // Cached string constants
-static constexpr const char* EVENT_DRAG_MOVE_START      = "dragstart-move";
-static constexpr const char* EVENT_DRAG_MOVE_END        = "dragend-move";
-static constexpr const char* EVENT_DRAG_RESIZE_START    = "dragstart-resize";
-static constexpr const char* EVENT_DRAG_RESIZE_END      = "dragend-resize";
-static constexpr const char* TAG_DRAGGING_MOVE          = "dragging-move";
-static constexpr const char* TAG_DRAGGING_RESIZE        = "dragging-resize";
-static constexpr const char* TAG_REMOVE_DRAGGING_MOVE   = "-dragging-move";
-static constexpr const char* TAG_REMOVE_DRAGGING_RESIZE = "-dragging-resize";
+static constexpr const char* EVENT_DRAG_MOVE_START      = "hyprdrag-movestart";
+static constexpr const char* EVENT_DRAG_MOVE_STOP       = "hyprdrag-movestop";
+static constexpr const char* EVENT_DRAG_RESIZE_START    = "hyprdrag-resizestart";
+static constexpr const char* EVENT_DRAG_RESIZE_STOP     = "hyprdrag-resizestop";
+static constexpr const char* TAG_DRAGGING_MOVE          = "hyprdrag-move";
+static constexpr const char* TAG_DRAGGING_RESIZE        = "hyprdrag-resize";
+static constexpr const char* TAG_REMOVE_DRAGGING_MOVE   = "-hyprdrag-move";
+static constexpr const char* TAG_REMOVE_DRAGGING_RESIZE = "-hyprdrag-resize";
 
 static void handleDragEvent(PHLWINDOW window, bool isMoving, bool isStart) {
     if (!window) {
@@ -53,7 +53,7 @@ static void handleDragEvent(PHLWINDOW window, bool isMoving, bool isStart) {
 
     // [isStart][isMoving] indexing
     static constexpr const char* events[2][2] = {
-        {EVENT_DRAG_RESIZE_END, EVENT_DRAG_MOVE_END},     // end events
+        {EVENT_DRAG_RESIZE_STOP, EVENT_DRAG_MOVE_STOP},     // end events
         {EVENT_DRAG_RESIZE_START, EVENT_DRAG_MOVE_START}  // start events
     };
 
