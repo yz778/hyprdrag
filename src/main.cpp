@@ -1,20 +1,15 @@
 #define WLR_USE_UNSTABLE
 
 #include <unistd.h>
-#include <vector>
 
 #include <hyprland/src/includes.hpp>
-#include <any>
-#include <thread>
 #include <chrono>
 #include <format>
 
 #define private public
 #include <hyprland/src/Compositor.hpp>
 #include <hyprland/src/desktop/Window.hpp>
-#include <hyprland/src/config/ConfigManager.hpp>
 #include <hyprland/src/managers/input/InputManager.hpp>
-#include <hyprland/src/managers/KeybindManager.hpp>
 #include <hyprland/src/managers/EventManager.hpp>
 #undef private
 
