@@ -3,12 +3,12 @@
 #include <unistd.h>
 
 #include <hyprland/src/includes.hpp>
+#include <hyprland/src/version.h>
 #include <chrono>
 #include <format>
 
 #define private public
 #include <hyprland/src/Compositor.hpp>
-#include <hyprland/src/desktop/Window.hpp>
 #include <hyprland/src/managers/input/InputManager.hpp>
 #include <hyprland/src/managers/EventManager.hpp>
 #undef private
@@ -44,7 +44,7 @@ static void handleDragEvent(PHLWINDOW window, bool isMoving, bool isStart) {
         return;
     }
 
-    std::string address = std::format("{:x}", reinterpret_cast<uintptr_t>(window.get()));
+    std::string address = std::format("0x{:x}", reinterpret_cast<uintptr_t>(window.get()));
 
     // [isStart][isMoving] indexing
     static constexpr const char* events[2][2] = {
@@ -60,17 +60,9 @@ static void handleDragEvent(PHLWINDOW window, bool isMoving, bool isStart) {
     // Send IPC event
     g_pEventManager->postEvent(SHyprIPCEvent{events[isStart][isMoving], address});
 
-    // Store the current focused window to restore after tagWindow
-    auto currentWindow = g_pCompositor->m_lastWindow.lock();
-
-    // Focus and tag the window
-    g_pCompositor->focusWindow(window);
-    g_pKeybindManager->tagWindow(std::string(tags[isStart][isMoving]));
-
-    // Restore the previously focused window if it was different
-    if (currentWindow && currentWindow != window) {
-        g_pCompositor->focusWindow(currentWindow);
-    }
+    // Tag the window using hyprctl
+    std::string tagCommand = std::format("tagwindow {} address:{}", tags[isStart][isMoving], address);
+    HyprlandAPI::invokeHyprctlCommand("dispatch", tagCommand);
 }
 
 static void handleDragEnd() {
@@ -122,15 +114,16 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
     PHANDLE = handle;
 
     const std::string HASH = __hyprland_api_get_hash();
+    const std::string CLIENTHASH = __hyprland_api_get_client_hash();
 
-    if (HASH != GIT_COMMIT_HASH) {
+    if (HASH != CLIENTHASH) {
         throw std::runtime_error("[hyprdrag] Version mismatch");
     }
 
     // Register mouse move callback instead of drag callbacks
     mouseMoveCallback = HyprlandAPI::registerCallbackDynamic(PHANDLE, "mouseMove", onMouseMove);
 
-    return {"hyprdrag", "Window move/resize interaction plugin", "yz778", "0.1.2"};
+    return {"hyprdrag", "Window move/resize interaction plugin", "yz778", "0.1.3"};
 }
 
 APICALL EXPORT void PLUGIN_EXIT() {
